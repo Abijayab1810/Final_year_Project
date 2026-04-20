@@ -1,0 +1,34 @@
+# Core ML & Detection
+ultralytics==8.0.205
+opencv-python==4.8.1.78
+numpy==1.24.3
+Pillow==10.0.1
+
+# OpenVINO Optimization
+openvino==2023.2.0
+openvino-dev==2023.2.0
+
+# FastAPI Backend
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+python-multipart==0.0.6
+pydantic==2.5.0
+
+# Authentication & Security
+passlib[bcrypt]==1.7.4
+python-jose[cryptography]==3.3.0
+bcrypt==4.1.2
+
+# Streamlit Web UI
+streamlit==1.28.1
+pandas==2.0.3
+
+# Data & Analytics
+requests==2.31.0
+
+# Database
+sqlite3-python==1.0.0
+
+# Development
+pytest==7.4.3
+pytest-asyncio==0.21.1

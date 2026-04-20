@@ -1,0 +1,18 @@
+path: 'D:/projects/Final_year_project/bags_only_dataset/bags_only_dataset'
+
+train: images/train
+# THE MAGIC FIX IS RIGHT HERE:
+val: images/valid
+
+names:
+  0: Backpack
+  1: Handbag
+  2: Suitcase
+  3: Trash bag
+  4: Paper bag
+  5: Hand bag
+  6: Gunny bag
+  7: Carry bag
+  8: Big handbag
+  9: Box bag
+  10: Kattapai

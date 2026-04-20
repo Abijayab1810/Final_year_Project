@@ -1,0 +1,92 @@
+version: '3.8'
+
+services:
+  # FastAPI Backend API
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: luggage_detection_api
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - LOG_LEVEL=info
+    volumes:
+      - ./best_int8_openvino_model:/app/best_int8_openvino_model:ro
+      - ./yolov8n.pt:/app/yolov8n.pt:ro
+      - ./evidence:/app/evidence
+      - ./forensic_detections.db:/app/forensic_detections.db
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - luggage_net
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # Streamlit Web UI
+  streamlit:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: luggage_detection_streamlit
+    ports:
+      - "8501:8501"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - STREAMLIT_SERVER_PORT=8501
+      - STREAMLIT_SERVER_ADDRESS=0.0.0.0
+      - STREAMLIT_LOGGER_LEVEL=info
+    volumes:
+      - ./best_int8_openvino_model:/app/best_int8_openvino_model:ro
+      - ./yolov8n.pt:/app/yolov8n.pt:ro
+      - ./evidence:/app/evidence
+      - ./forensic_detections.db:/app/forensic_detections.db
+    restart: unless-stopped
+    command: streamlit run app.py --server.runOnSave true --logger.level=info
+    depends_on:
+      - api
+    networks:
+      - luggage_net
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # Optional: Nginx reverse proxy for production
+  nginx:
+    image: nginx:alpine
+    container_name: luggage_detection_nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - api
+      - streamlit
+    restart: unless-stopped
+    networks:
+      - luggage_net
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  luggage_net:
+    driver: bridge
+
+volumes:
+  model_cache:

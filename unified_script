@@ -1,0 +1,50 @@
+import os
+from ultralytics import YOLO
+
+# ⚙️ CONFIGURATION
+YAML_PATH = 'data.yaml' 
+TRAINED_WEIGHTS = 'bag.pt' 
+
+def run_ptq_calibration_export():
+    if not os.path.exists(TRAINED_WEIGHTS):
+        print(f"❌ Error: {TRAINED_WEIGHTS} not found!")
+        return~
+
+    # 1. Load your Phase 1 model (FP32)
+    print(f"📦 Loading {TRAINED_WEIGHTS}...")
+    model = YOLO(TRAINED_WEIGHTS)
+
+    # 2. Refinement Fine-Tuning (Preparation for Calibration)
+    # We fine-tune briefly at a low learning rate to stabilize the weights 
+    # at the new 320px resolution before converting to INT8.
+    print("\n⚡ RUNNING PTQ REFINEMENT (320px + Multi-threading)...")
+    model.train(
+        data=YAML_PATH, 
+        epochs=5, 
+        imgsz=320,          
+        batch=2,            
+        workers=2,          
+        lr0=0.00001, 
+        name="ptq_refinement_320", # Changed from 'qat' to 'ptq_refinement'
+        exist_ok=True,
+        cache=False         
+    )
+
+    # 3. Final Export & INT8 Calibration via OpenVINO
+    # The 'data' argument here passes your images to OpenVINO so it can 
+    # calibrate the 8-bit math ranges accurately.
+    print("\n📦 EXPORTING TO INT8 OPENVINO (PTQ Calibration)...")
+    export_path = model.export(
+        format='openvino', 
+        int8=True, 
+        imgsz=320, 
+        data=YAML_PATH
+    )
+    
+    print("-" * 50)
+    print(f"✅ SUCCESS! Industry PTQ model ready at: {export_path}")
+    print("-" * 50)
+
+if __name__ == "__main__":
+    # Run the updated pipeline
+    run_ptq_calibration_export()
