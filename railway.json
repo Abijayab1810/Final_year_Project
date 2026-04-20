@@ -1,0 +1,17 @@
+{
+  "build": {
+    "builder": "dockerfile",
+    "dockerfile": "Dockerfile"
+  },
+  "start": "uvicorn main:app --host 0.0.0.0 --port 8000",
+  "environmentVariables": {
+    "PYTHONUNBUFFERED": "1",
+    "LOG_LEVEL": "INFO"
+  },
+  "healthcheck": {
+    "endpoint": "/health",
+    "interval": 30,
+    "timeout": 10,
+    "startPeriod": 60
+  }
+}
