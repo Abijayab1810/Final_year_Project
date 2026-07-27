@@ -4,11 +4,15 @@
 > Advanced YOLOv8 INT8 Edge Computing with 3.5x Speed Optimization & Forensic Logging
 
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.104.1-009485.svg)](https://fastapi.tiangolo.com)
 [![OpenVINO](https://img.shields.io/badge/OpenVINO-2023.2-blue.svg)](https://github.com/openvinotoolkit/openvino)
 
 ---
+<img width="978" height="442" alt="image" src="https://github.com/user-attachments/assets/23e3adfd-33a3-41bd-b45a-4cb613431c40" />
+<img width="753" height="388" alt="image" src="https://github.com/user-attachments/assets/35bd27bd-a8aa-4af0-b1dc-14b40a877333" />
+<img width="730" height="440" alt="image" src="https://github.com/user-attachments/assets/c9d3cefa-9c5f-4f66-812a-e5ec5e8377a4" />
+
+
 
 ## 📋 Executive Summary
 
