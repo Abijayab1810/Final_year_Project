@@ -547,17 +547,7 @@ lsof -ti:8000 | xargs kill -9
 
 ---
 
-## 📜 License
 
-This project is licensed under the **MIT License** - see [LICENSE](LICENSE) file for details.
-
-```
-MIT License (2024-2025)
-Copyright © 2024 Abijayab1810
-Permission is hereby granted, free of charge, to any person obtaining a copy...
-```
-
----
 
 ## 🙏 Acknowledgments
 
