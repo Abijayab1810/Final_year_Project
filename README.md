@@ -140,6 +140,40 @@ streamlit run app.py
 
 ---
 
+## ✅ Verify Installation Works
+
+### Quick Test (2 minutes)
+
+```bash
+# 1. Check Python & dependencies
+python --version        # Should be 3.8+
+pip list | grep -E "streamlit|fastapi|opencv|ultralytics|openvino"
+
+# 2. Verify model files
+ls -lh models/best_int8_openvino_model/
+# Should show: best.bin (12.4M), best.xml (8.2K), metadata.yaml (1.2K)
+
+# 3. Test camera access
+python -c "import cv2; cap = cv2.VideoCapture(0); print('✅ Camera OK' if cap.isOpened() else '❌ No camera')"
+
+# 4. Run unit tests
+pytest tests/ -v
+
+# 5. Launch app
+streamlit run app.py
+# Open http://localhost:8501
+```
+
+### Expected Results
+- ✅ Python 3.8+
+- ✅ All dependencies installed
+- ✅ Model files present (12.4 MB total)
+- ✅ Camera detected (or RTSP stream available)
+- ✅ All tests pass (88%+ coverage)
+- ✅ Dashboard loads at http://localhost:8501
+
+---
+
 ## 💻 Usage Guide
 
 ### Web Dashboard (Streamlit)
@@ -550,8 +584,6 @@ lsof -ti:8000 | xargs kill -9
 | 👤 **Profile** | [@Abijayab1810](https://github.com/Abijayab1810) |
 
 ---
-
-
 
 ## 🙏 Acknowledgments
 
